@@ -1,0 +1,30 @@
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingress
+spec:
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: Host(`v1.mydomain.com`) && PathPrefix(`/`)
+    services:
+    - name: hello-v1-svc
+      port: 80
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingress-v2
+spec:
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: Host(`v2.mydomain.com`) && PathPrefix(`/`)
+    services:
+    - name: hello-v2-svc
+      port: 80

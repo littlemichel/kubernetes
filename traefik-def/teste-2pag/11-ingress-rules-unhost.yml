@@ -1,0 +1,21 @@
+
+#apiVersion: traefik.containo.us/v1alpha1
+#kind: IngressRoute
+metadata:
+  name: ingress
+  annotations:
+    traefik.ingress.kubernetes.io/service-weights: |
+      hello-v2-svc: 10%
+spec:
+  entryPoints:
+    - web
+  rules:
+  - host: v1.peladonerd.local 
+    http:
+      paths:
+      - backend:
+          serviceName: hello-v1-svc
+          servicePort: 80
+      - backend:
+          serviceName: hello-v2-svc
+          servicePort: 80

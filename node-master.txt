@@ -1,0 +1,53 @@
+#!/bin/bash
+sudo apt install docker.io
+docker --version
+sudo systemctl enable docker
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+sudo apt install kubeadm
+kubeadm version
+sudo swapoff -a
+sudo hostnamectl set-hostname master-node
+sudo kubeadm init --pod-network-cidr = 10.244.0.0/16
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.1.145:6443 --token 2md6ai.wscyv0308ggpvlwu \
+    --discovery-token-ca-cert-hash sha256:b1e8d729150194ec5ad6114fa3d352996ce8cfa9357d68c3daa4e4e6c1dea9fb
+
+
+
+FLANNEL
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+Em caso de reinicio usar os segui. comandos:
+sudo -i
+swapoff -a
+exit
+strace -eopenat kubectl version
+
+coredns crashea y se lleva consigo o dashboard:
+systemctl daemon-reload
+
+systemctl restart docker
+
+kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml

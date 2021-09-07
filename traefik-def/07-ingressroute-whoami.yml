@@ -26,5 +26,5 @@ spec:
     - name: whoami
       port: 80
   tls:
-    certResolver: le
+    certResolver: default
 

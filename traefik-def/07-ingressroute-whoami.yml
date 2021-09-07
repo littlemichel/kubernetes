@@ -7,7 +7,7 @@ spec:
     - web
   routes:
   - kind: Rule
-    match: Host(`my.domain.com`) && PathPrefix(`/`)
+    match: Host(`my.domain.com`) && PathPrefix(`/notls`)
     services:
     - name: whoami
       port: 80
@@ -21,7 +21,7 @@ spec:
     - websecure
   routes:
   - kind: Rule
-    match: Host(`my.domain.com`) && PathPrefix(`/`)
+    match: Host(`my.domain.com`) && PathPrefix(`/tls`)
     services:
     - name: whoami
       port: 80
